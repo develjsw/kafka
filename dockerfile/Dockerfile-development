@@ -1,0 +1,36 @@
+# 기본 이미지 설정 (경량화 이미지 사용)
+FROM node:18-alpine
+
+# install npm (전역에 v.10.2.3으로)
+RUN npm install -g npm@10.2.3
+
+# update apk
+RUN apk update
+
+# apk 패키지 캐시 삭제
+RUN rm -rf /var/cache/apk/*
+
+# curl,telnet 설치
+RUN apk add curl
+RUN apk add busybox-extras
+
+# 작업 디렉토리 생성
+WORKDIR /data/nest-in-api
+
+# 소스 코드 복사
+COPY . .
+
+# 앱을 실행할 사용자 생성
+RUN chown -R node:node .
+
+# 실행하는 프로세스의 사용자를 생성한 사용자로 변경
+USER node
+
+# npm 종속성 설치 && npm clear cache
+RUN npm ci && npm cache clean --force
+
+# 앱 빌드
+RUN npm run build
+
+# 컨테이너 실행 시 실행될 명령어 설정
+CMD ["npm", "run", "start:dev"]
