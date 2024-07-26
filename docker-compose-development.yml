@@ -100,7 +100,7 @@ services:
   producer:
     image: producer:latest
     build:
-      context: ../../
+      context: .
       dockerfile: dockerfile/Dockerfile-development
     ports:
       - 7777:7777
