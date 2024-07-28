@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Kafka, Partitioners, Producer, RecordMetadata } from 'kafkajs';
+import { Kafka, Producer, RecordMetadata } from 'kafkajs';
 
 @Injectable()
 export class KafkaProducerService {
@@ -9,12 +9,11 @@ export class KafkaProducerService {
     constructor() {
         this.kafka = new Kafka({
             clientId: 'property-test',
-            brokers: ['kafka-1:9094', 'kafka-2:9095', 'kafka-3:9096']
+            // TODO : 개발서버 아이피로 고정 설정, 환경변수로 개발/로컬/운영 나뉘어질 수 있도록 변경 필요
+            brokers: ['3.36.54.43:9095', '3.36.54.43:9096', '3.36.54.43:9097'] // broker 외부 포트 설정
         });
 
-        this.producer = this.kafka.producer({
-            createPartitioner: Partitioners.LegacyPartitioner
-        });
+        this.producer = this.kafka.producer();
     }
 
     async connectProducer(): Promise<void> {
