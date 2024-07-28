@@ -74,6 +74,8 @@
   2. 사용자 지정 TCP, 7777, 내 IP 추가 (kafka producer API 방화벽 허용)
   3. 사용자 지정 TCP, 9095-9097, 0.0.0.0/0 (kafka broker 1,2,3 외부 리스너용 방화벽 허용) 
   4. 사용자 지정 TCP, 2181, 내 IP 추가 (kafka zookeeper 방화벽 허용)
+- AWS console login → AWS EC2 인스턴스 → 보안 → 보안 그룹 → 아웃바운드 규칙 → 아웃바운드 규칙 편집 →
+  1. 사용자 지정 TCP, 9095-9097, 0.0.0.0/0 (kafka broker 1,2,3 외부 리스너용 방화벽 허용)
 
 ### Docker 설치
   ~~~
@@ -136,18 +138,37 @@
   ~~~
 
 ### 정상동작 확인
-~~~
-# 아래 명령어 실행 후 Error 없는지 확인
-$ docker logs kafka-1
-$ docker logs kafka-2
-$ docker logs kafka-3
-$ docker logs zookeeper
-$ docker logs kafka-producer-1
+  ~~~
+  # 아래 명령어 실행 후 Error 없는지 확인
+  $ docker logs kafka-1
+  $ docker logs kafka-2
+  $ docker logs kafka-3
+  $ docker logs zookeeper
+  $ docker logs kafka-producer-1
+  
+  # producer API 호출 후 아래 명령어에 Error 없는지 확인
+  $ docker logs kafka-producer-1
+  ~~~
 
-# producer API 호출 후 아래 명령어에 Error 없는지 확인
-$ docker logs kafka-producer-1
-~~~
+### (토픽 별) 파티션 수 확인
+  ~~~
+  $ docker exec -it [컨테이너명 OR 컨테이너 아이디] bash
+  ex) docker exec -it kafka-1 bash
+  
+  # 특정 토픽의 파티션 수 확인
+  $ kafka-topics.sh --describe --topic 토픽명 --bootstrap-server kafka-1:내부 리스너 포트 중 하나
+  ex) kafka-topics.sh --describe --topic property-temp-request --bootstrap-server kafka-1:9092
+  ~~~
 
-### 파티션 수 확인
-
-### 파티션 수 증설
+### (토픽 별) 파티션 수 증설
+  ~~~
+  ** 어떤 broker에서 실행하든 상관 없이 클러스터 내에서 전부 적용됨 **
+  
+  # 특정 토픽에 대한 파티션 수 증설
+  $ kafka-topics.sh --alter --topic 토픽명 --partitions 9 --bootstrap-server kafka-1:내부 리스너 포트중 하나
+  ex) kafka-topics.sh --alter --topic property-temp-request --partitions 9 --bootstrap-server kafka-1:9092
+  
+  # 증설된 파티션 수 확인
+  $ kafka-topics.sh --describe --topic 토픽명 --bootstrap-server kafka-1:내부 리스너 포트 중 하나 
+  ex) kafka-topics.sh --describe --topic property-temp-request --bootstrap-server kafka-1:9092
+  ~~~
