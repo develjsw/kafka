@@ -8,6 +8,8 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
       - kafka-network
+    volumes:
+      - data/zookeeper:/data
 
   kafka-1:
     image: bitnami/kafka:latest
@@ -31,6 +33,8 @@ services:
       - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
     networks:
       - kafka-network
+    volumes:
+      - data/kafka-1:/bitnami/kafka/data
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -54,6 +58,8 @@ services:
       - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
     networks:
       - kafka-network
+    volumes:
+      - data/kafka-2:/bitnami/kafka/data
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -77,6 +83,8 @@ services:
       - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
     networks:
       - kafka-network
+    volumes:
+      - data/kafka-3:/bitnami/kafka/data
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -113,3 +121,9 @@ services:
 
 networks:
   kafka-network:
+
+volumes:
+  zookeeper-data:
+  kafka-1-data:
+  kafka-2-data:
+  kafka-3-data:
