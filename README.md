@@ -128,6 +128,12 @@
   $ sudo git clone https://github.com/develjsw/kafka.git
   ~~~
 
+### Volume Mount (Host 서버에 폴더 생성)
+  ~~~
+  $ cd /data
+  $ sudo mkdir zookeeper kafka-1 kafka-2 kafka-3
+  ~~~
+
 ### Docker Compose 실행
   ~~~
   # 작업 디렉토리로 이동
