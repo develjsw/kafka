@@ -9,7 +9,7 @@ services:
     networks:
       - kafka-network
     volumes:
-      - data/zookeeper:/data # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      - ./data/zookeeper:/data # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
 
   kafka-1:
     image: bitnami/kafka:latest
@@ -34,7 +34,7 @@ services:
     networks:
       - kafka-network
     volumes:
-      - data/kafka-1:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      - ./data/kafka-1:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -59,7 +59,7 @@ services:
     networks:
       - kafka-network
     volumes:
-      - data/kafka-2:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      - ./data/kafka-2:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -84,7 +84,7 @@ services:
     networks:
       - kafka-network
     volumes:
-      - data/kafka-3:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      - ./data/kafka-3:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
