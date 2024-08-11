@@ -9,7 +9,9 @@ services:
     networks:
       - kafka-network
     volumes:
-      - ./data/zookeeper:/data # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      # Docker Compose 실행 전 host 서버에 zookeeper-data 생성 필요
+      # Docker가 관리하는 이름인 'zookeeper-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      - zookeeper-data:/bitnami
 
   kafka-1:
     image: bitnami/kafka:latest
@@ -34,7 +36,9 @@ services:
     networks:
       - kafka-network
     volumes:
-      - ./data/kafka-1:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      # Docker Compose 실행 전 host 서버에 kafka-1-data:/bitnami 생성 필요
+      # Docker가 관리하는 이름인 'kafka-1-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      - kafka-1-data:/bitnami
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -59,7 +63,9 @@ services:
     networks:
       - kafka-network
     volumes:
-      - ./data/kafka-2:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      # Docker Compose 실행 전 host 서버에 kafka-2-data:/bitnami 생성 필요
+      # Docker가 관리하는 이름인 'kafka-2-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      - kafka-2-data:/bitnami
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -84,7 +90,9 @@ services:
     networks:
       - kafka-network
     volumes:
-      - ./data/kafka-3:/bitnami/kafka/data  # Docker Compose 실행 전 host 서버에 data/zookeeper 생성 필요
+      # Docker Compose 실행 전 host 서버에 kafka-3-data:/bitnami 생성 필요
+      # Docker가 관리하는 이름인 'kafka-3-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      - kafka-3-data:/bitnami
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -123,7 +131,7 @@ networks:
   kafka-network:
 
 volumes:
-  zookeeper:
-  kafka-1:
-  kafka-2:
-  kafka-3:
+  zookeeper-data:
+  kafka-1-data:
+  kafka-2-data:
+  kafka-3-data:
