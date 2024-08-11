@@ -134,6 +134,15 @@
   $ sudo mkdir zookeeper kafka-1 kafka-2 kafka-3
   ~~~
 
+### Volume Mount (Host 서버 폴더 소유자 권한 변경)
+  ~~~
+  # docker-compose.yml 파일에 2번 방식으로 볼륨 마운트 하려고 할 경우 아래 명령어 실행 필요
+  # 1001은 컨테이너 내부 bitnami의 UID 값임
+  $ sudo chown -R 1001:1001 /data/logs/kafka-1
+  $ sudo chown -R 1001:1001 /data/logs/kafka-2
+  $ sudo chown -R 1001:1001 /data/logs/kafka-3
+  ~~~
+
 ### Docker Compose 실행
   ~~~
   # 작업 디렉토리로 이동
