@@ -10,8 +10,10 @@ services:
       - kafka-network
     volumes:
       # Docker Compose 실행 전 host 서버에 zookeeper-data 생성 필요
-      # Docker가 관리하는 이름인 'zookeeper-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
-      - zookeeper-data:/bitnami
+      # [방법-1] Docker가 관리하는 이름인 'zookeeper-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      # - zookeeper-data:/bitnami
+      # [방법-2] 내가 생성하고 싶은 폴더를 host에 생성 후 - 폴더 소유자 권한을 컨테이너 내부 사용자와 동일하게 변경 (bitnami 사용자의 UID가 1001이므로 1001로 변경)
+      - /data/logs/zookeeper:/bitnami
 
   kafka-1:
     image: bitnami/kafka:latest
@@ -37,8 +39,10 @@ services:
       - kafka-network
     volumes:
       # Docker Compose 실행 전 host 서버에 kafka-1-data:/bitnami 생성 필요
-      # Docker가 관리하는 이름인 'kafka-1-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
-      - kafka-1-data:/bitnami
+      # [방법-1] Docker가 관리하는 이름인 'kafka-1-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      # - kafka-1-data:/bitnami
+      # [방법-2] 내가 생성하고 싶은 폴더를 host에 생성 후 - 폴더 소유자 권한을 컨테이너 내부 사용자와 동일하게 변경 (bitnami 사용자의 UID가 1001이므로 1001로 변경)
+      - /data/logs/kafka-1:/bitnami
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -64,8 +68,10 @@ services:
       - kafka-network
     volumes:
       # Docker Compose 실행 전 host 서버에 kafka-2-data:/bitnami 생성 필요
-      # Docker가 관리하는 이름인 'kafka-2-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
-      - kafka-2-data:/bitnami
+      # [방법-1] Docker가 관리하는 이름인 'kafka-2-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      # - kafka-2-data:/bitnami
+      # [방법-2] 내가 생성하고 싶은 폴더를 host에 생성 후 - 폴더 소유자 권한을 컨테이너 내부 사용자와 동일하게 변경 (bitnami 사용자의 UID가 1001이므로 1001로 변경)
+      - /data/logs/kafka-2:/bitnami
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -91,8 +97,10 @@ services:
       - kafka-network
     volumes:
       # Docker Compose 실행 전 host 서버에 kafka-3-data:/bitnami 생성 필요
-      # Docker가 관리하는 이름인 'kafka-3-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
-      - kafka-3-data:/bitnami
+      # [방법-1] Docker가 관리하는 이름인 'kafka-3-data:/bitnami' 지정된 볼륨을 사용하므로 권한 에러 발생하지 않음
+      # - kafka-3-data:/bitnami
+      # [방법-2] 내가 생성하고 싶은 폴더를 host에 생성 후 - 폴더 소유자 권한을 컨테이너 내부 사용자와 동일하게 변경 (bitnami 사용자의 UID가 1001이므로 1001로 변경)
+      - /data/logs/kafka-3:/bitnami
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -130,8 +138,9 @@ services:
 networks:
   kafka-network:
 
-volumes:
-  zookeeper-data:
-  kafka-1-data:
-  kafka-2-data:
-  kafka-3-data:
+# 방법-2 사용시에는 사용하지 않음
+#volumes:
+  #zookeeper-data:
+  #kafka-1-data:
+  #kafka-2-data:
+  #kafka-3-data:
