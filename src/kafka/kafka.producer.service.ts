@@ -13,7 +13,9 @@ export class KafkaProducerService {
             brokers: ['52.78.56.128:9095', '52.78.56.128:9096', '52.78.56.128:9097'] // broker 외부 포트 설정
         });
 
-        this.producer = this.kafka.producer();
+        this.producer = this.kafka.producer({
+            idempotent: true, // 멱등성 프로듀서 활성화
+        });
     }
 
     async connectProducer(): Promise<void> {
