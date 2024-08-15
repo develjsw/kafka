@@ -10,7 +10,7 @@ export class KafkaProducerService {
         this.kafka = new Kafka({
             clientId: 'property-test',
             // TODO : 개발서버 아이피로 고정 설정, 환경변수로 개발/로컬/운영 나뉘어질 수 있도록 변경 필요
-            brokers: ['3.36.54.43:9095', '3.36.54.43:9096', '3.36.54.43:9097'] // broker 외부 포트 설정
+            brokers: ['52.78.56.128:9095', '52.78.56.128:9096', '52.78.56.128:9097'] // broker 외부 포트 설정
         });
 
         this.producer = this.kafka.producer();
