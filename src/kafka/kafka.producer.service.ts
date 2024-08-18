@@ -1,21 +1,26 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Kafka, Producer, RecordMetadata } from 'kafkajs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class KafkaProducerService {
     private kafka: Kafka;
     private producer: Producer;
 
-    constructor() {
+    constructor(
+        private readonly configService: ConfigService
+    ) {
+        this.configService.get('config.kafka.brokers.address3')
         this.kafka = new Kafka({
             clientId: 'property-test',
-            // TODO : 개발서버 아이피로 고정 설정, 환경변수로 개발/로컬/운영 나뉘어질 수 있도록 변경 필요
-            brokers: ['52.78.56.128:9095', '52.78.56.128:9096', '52.78.56.128:9097'] // broker 외부 포트 설정
+            brokers: [
+                this.configService.get('config.kafka.brokers.address1'),
+                this.configService.get('config.kafka.brokers.address2'),
+                this.configService.get('config.kafka.brokers.address3')
+            ] // broker 외부 포트 설정
         });
 
-        this.producer = this.kafka.producer({
-            idempotent: true, // 멱등성 프로듀서 활성화
-        });
+        this.producer = this.kafka.producer();
     }
 
     async connectProducer(): Promise<void> {
@@ -31,7 +36,7 @@ export class KafkaProducerService {
 
     async sendMessage(
         topic: string,
-        messages: { value: string }[]
+        messages: { value: string }[],
     ): Promise<void> {
         const params = {
             topic,
